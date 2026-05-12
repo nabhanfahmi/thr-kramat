@@ -46,6 +46,23 @@ class PemesananController extends Controller
     public function show($id)
     {
         $pemesanans = Pemesanan::findOrFail($id);
+
+        // Jika status dibayar dan sudah lewat 30 detik
+        if (
+            $pemesanans->status == 'dibayar' &&
+            $pemesanans->updated_at->diffInSeconds(now()) >= 30
+        ) {
+
+            $pemesanans->status = 'selesai';
+
+            // Generate QR jika belum ada
+            if (empty($pemesanans->kode_qr)) {
+                $pemesanans->kode_qr = Str::uuid()->toString();
+            }
+
+            $pemesanans->save();
+        }
+
         return view('admin.pemesanan.show', compact('pemesanans'));
     }
 

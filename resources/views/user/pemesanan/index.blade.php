@@ -221,9 +221,19 @@
                             {{-- STATUS DIBAYAR --}}
                             @elseif($item->status == 'dibayar')
 
-                                <span class="text-success">
-                                    Pembayaran berhasil
-                                </span>
+                            <span class="text-success d-block mb-2">
+                                Pembayaran berhasil
+                            </span>
+
+                            <small class="text-muted">
+                                Tiket akan otomatis aktif dalam 30 detik...
+                            </small>
+
+                            <script>
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 30000);
+                            </script>
 
                             {{-- STATUS SELESAI --}}
                             @elseif($item->status == 'selesai')

@@ -19,6 +19,30 @@ class TiketPemesananController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        // AUTO UPDATE STATUS
+        foreach ($pemesanans as $item) {
+
+            if (
+                $item->status == 'dibayar' &&
+                $item->updated_at->diffInSeconds(now()) >= 30
+            ) {
+
+                $item->status = 'selesai';
+
+                // Generate QR jika belum ada
+                if (empty($item->kode_qr)) {
+                    $item->kode_qr = Str::uuid()->toString();
+                }
+
+                $item->save();
+            }
+        }
+
+        // Refresh data setelah update
+        $pemesanans = Pemesanan::where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('user.pemesanan.index', compact('pemesanans'));
     }
 

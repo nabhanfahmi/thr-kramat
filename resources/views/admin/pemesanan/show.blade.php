@@ -16,24 +16,78 @@
 <h3>Status Pemesanan</h3>
 
 @if($pemesanans->status == 'menunggu')
-    <div class="alert alert-warning">Menunggu pembayaran dari user.</div>
+
+    <div class="alert alert-warning">
+        Menunggu pembayaran dari user.
+    </div>
+
 @elseif($pemesanans->status == 'dibayar')
+
+    <div class="alert alert-info">
+        Pembayaran berhasil. Status akan otomatis selesai dalam 30 detik.
+    </div>
+
     <form action="{{ route('admin.pemesanan.updateStatusSelesai', $pemesanans->id) }}" method="POST">
         @csrf
-         @method('PATCH')
+        @method('PATCH')
+
         <input type="hidden" name="status" value="selesai">
+
         <button class="btn btn-success mt-2" type="submit"
             onclick="return confirm('Yakin ingin menyelesaikan pemesanan ini?')">
+
             Konfirmasi Selesai
+
         </button>
     </form>
+
+    <script>
+        setTimeout(function () {
+            location.reload();
+        }, 30000);
+    </script>
+
 @elseif($pemesanans->status == 'selesai')
-    <div class="alert alert-success">Pemesanan telah selesai.</div>
+
+    <div class="alert alert-success">
+        Pemesanan telah selesai.
+    </div>
+
+    {{-- QR CODE --}}
+    @if($pemesanans->kode_qr)
+
+        <div class="mt-4">
+
+            <h4>QR Code Tiket</h4>
+
+            {!! QrCode::size(250)->generate(
+                url('/petugas/pemesanan/' . $pemesanans->kode_qr)
+            ) !!}
+
+            <p class="mt-2 text-muted">
+                Tunjukkan QR Code ini kepada petugas saat kunjungan.
+            </p>
+
+        </div>
+
+    @endif
+
 @elseif($pemesanans->status == 'tiket terpakai')
-    <div class="alert bg-dark text-white">Tiket telah terpakai.</div>
-@elseif($pemesanans ->status == 'batal')
-    <div class="alert alert-danger">Pemesanan dibatalkan.</div>
+
+    <div class="alert bg-dark text-white">
+        Tiket telah terpakai.
+    </div>
+
+@elseif($pemesanans->status == 'batal')
+
+    <div class="alert alert-danger">
+        Pemesanan dibatalkan.
+    </div>
+
 @endif
 
-<a href="{{ route('admin.pemesanan.index') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Pemesanan</a>
+<a href="{{ route('admin.pemesanan.index') }}" class="btn btn-secondary mt-3">
+    Kembali ke Daftar Pemesanan
+</a>
+
 @endsection
