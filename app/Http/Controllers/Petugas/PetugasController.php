@@ -16,23 +16,45 @@ class PetugasController extends Controller
     public function scan(Request $request)
     {
         $kode = $request->kode_qr;
+
         $tiket = Pemesanan::where('kode_qr', $kode)->first();
 
+        // Tiket tidak ditemukan
         if (!$tiket) {
-            return response()->json(['status' => 'error', 'message' => 'Tiket tidak ditemukan']);
+
+            return response()->json([
+                'success' => false,
+                'message' => '❌ Tiket tidak ditemukan'
+            ]);
         }
 
+        // Tiket valid
         if ($tiket->status === 'selesai') {
+
             $tiket->status = 'tiket terpakai';
             $tiket->save();
-            return response()->json(['status' => 'success', 'message' => 'Tiket valid. Silakan masuk!']);
+
+            return response()->json([
+                'success' => true,
+                'message' => '✅ Tiket valid. Silakan masuk!',
+                'redirect' => route('petugas.konfirmasi', $tiket->kode_qr)
+            ]);
         }
 
+        // Tiket sudah dipakai
         if ($tiket->status === 'tiket terpakai') {
-            return response()->json(['status' => 'error', 'message' => 'Tiket sudah digunakan!']);
+
+            return response()->json([
+                'success' => false,
+                'message' => '⚠️ Tiket sudah digunakan!'
+            ]);
         }
 
-        return response()->json(['status' => 'error', 'message' => 'Tiket belum valid']);
+        // Tiket belum aktif
+        return response()->json([
+            'success' => false,
+            'message' => '⚠️ Tiket belum valid'
+        ]);
     }
 
     public function showTiket($kode_qr)

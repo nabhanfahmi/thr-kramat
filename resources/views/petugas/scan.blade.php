@@ -1,31 +1,115 @@
-@extends('layouts.app')
+@extends('petugas.layout.app')
 
 @section('content')
-<div class="container text-center">
-    <h3>Scan Tiket QR Code</h3>
-    <div id="reader" style="width:300px; margin:auto;"></div>
-    <p id="scan-result" class="mt-3"></p>
+
+<style>
+.scanner-container {
+    max-width: 420px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+#reader {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background: #2c97e8;
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+</style>
+
+<div class="scanner-container">
+
+    <h3>Scan Tiket QR</h3>
+
+    <button onclick="startScanner()">
+        📷 Mulai Scan Kamera
+    </button>
+
+    <div id="reader"></div>
+    <div id="scan-result"></div>
+
 </div>
 
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+
 <script>
-function onScanSuccess(decodedText, decodedResult) {
-    fetch("{{ route('petugas.scan.submit') }}", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({ kode_qr: decodedText })
+
+let scanner;
+let sudahScan = false;
+
+function startScanner() {
+
+    if (!scanner) {
+        scanner = new Html5Qrcode("reader");
+    }
+
+    Html5Qrcode.getCameras()
+    .then(devices => {
+
+        if (!devices.length) {
+            alert("Kamera tidak ditemukan");
+            return;
+        }
+
+        let cameraId = devices[0].id;
+
+        scanner.start(
+            cameraId,
+            {
+                fps: 10,
+                qrbox: 250
+            },
+            onScanSuccess
+        ).catch(err => {
+            console.log(err);
+            alert("Tidak bisa membuka kamera. Cek izin browser.");
+        });
+
     })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('scan-result').innerHTML = data.message;
+    .catch(err => {
+        console.log(err);
+        alert("Izin kamera ditolak");
     });
 }
 
-var html5QrcodeScanner = new Html5QrcodeScanner(
-    "reader", { fps: 10, qrbox: 250 });
-html5QrcodeScanner.render(onScanSuccess);
+function onScanSuccess(decodedText) {
+
+    if (sudahScan) return;
+    sudahScan = true;
+
+    scanner.stop();
+
+    let kodeQr = decodedText.split('/').pop();
+
+    fetch("{{ route('petugas.scan.submit') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({ kode_qr: kodeQr })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("scan-result").innerHTML = data.message;
+        sudahScan = false;
+    });
+
+}
+
 </script>
+
 @endsection
