@@ -1,37 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Register Petugas</title>
+    <link href="{{ asset('vendor/sb-admin-2/css/sb-admin-2.min.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gradient-success">
 
-<h2>Register Petugas</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-8">
+            <div class="card shadow-lg my-5">
+                <div class="card-body p-4">
 
-<form action="{{ route('petugas.register.submit') }}" method="POST">
-    @csrf
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Register Petugas</h1>
+                    </div>
 
-    <input type="text" name="name" placeholder="Nama" required>
-    <br><br>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                                <div>{{ $error }}</div>
+                            @endforeach
+                        </div>
+                    @endif
 
-    <input type="email" name="email" placeholder="Email" required>
-    <br><br>
+                    <form method="POST" action="{{ route('petugas.register') }}">
+                        @csrf
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control form-control-user" name="name" placeholder="Nama Lengkap" required>
+                        </div>
 
-    <input type="password" name="password" placeholder="Password" required>
-    <br><br>
+                        <div class="form-group mb-3">
+                            <input type="email" class="form-control form-control-user" name="email" placeholder="Email" required>
+                        </div>
 
-    <input type="password" name="password_confirmation" placeholder="Konfirmasi Password" required>
-    <br><br>
+                        <div class="form-group mb-3">
+                            <input type="password" class="form-control form-control-user" name="password" placeholder="Password" required>
+                        </div>
 
-    <button type="submit">
-        Register
-    </button>
-</form>
+                        <div class="form-group mb-4">
+                            <input type="password" class="form-control form-control-user" name="password_confirmation" placeholder="Konfirmasi Password" required>
+                        </div>
 
-<br>
+                        <button type="submit" class="btn btn-success btn-user btn-block">
+                            Daftar
+                        </button>
+                    </form>
 
-<a href="{{ route('petugas.login') }}">
-    Sudah punya akun? Login
-</a>
+                    <div class="text-center mt-3">
+                        <a class="small" href="{{ route('petugas.login') }}">Sudah punya akun? Login di sini</a>
+                    </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ asset('vendor/sb-admin-2/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('vendor/sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('vendor/sb-admin-2/js/sb-admin-2.min.js') }}"></script>
 </body>
 </html>
