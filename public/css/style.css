@@ -490,11 +490,11 @@ img {
 }
 
 
-/* Tiket Section */
+
+/* ===== TIKET SECTION ===== */
 .daftar-tiket-section {
   position: relative;
   min-height: 100vh;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -504,75 +504,104 @@ img {
 }
 
 .daftar-tiket-section .section-title {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: bold;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .daftar-tiket-section .text {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #f2f2f2;
   text-align: center;
   max-width: 600px;
 }
 
-/* Card Container */
+/* ===== GRID CARD ===== */
 .ticket-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px;
   margin-top: 40px;
-  justify-content: center;
+  width: 100%;
+  max-width: 1100px;
 }
 
-/* Individual Ticket Card */
+/* ===== CARD ===== */
 .ticket-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 30px 20px;
-  width: 280px;
-  color: #fff;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .ticket-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25);
 }
 
+/* ===== IMAGE ===== */
+.ticket-image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #eee;
+}
+
+.ticket-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.ticket-card:hover .ticket-image img {
+  transform: scale(1.08);
+}
+
+/* ===== CONTENT ===== */
 .ticket-card h3 {
-  font-size: 1.4rem;
-  color: #fff;
-  margin-bottom: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 12px 10px 5px;
+  color: #333;
+}
+
+.ticket-card small {
+  color: #777;
+  font-size: 13px;
 }
 
 .ticket-card p {
-  font-size: 1.1rem;
-  margin-bottom: 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 10px 0 15px;
+  color: #444;
 }
 
-/* Tombol */
+/* ===== BUTTON ===== */
 .ticket-card .button {
   display: inline-block;
-  padding: 10px 18px;
-  background-color: #fff;
-  color: #C70039;
+  margin: 0 15px 18px;
+  padding: 10px 15px;
+  background-color: #C70039;
+  color: #fff;
   border-radius: 25px;
   font-weight: bold;
   text-decoration: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .ticket-card .button:hover {
-  background-color: #C70039;
-  color: #fff;
-  border: 1px solid #fff;
+  background-color: #900C3F;
+  transform: scale(1.05);
 }
 
+/* ===== INFO TEXT ===== */
 .tiket-info-wrapper {
   display: flex;
   justify-content: center;
@@ -581,13 +610,28 @@ img {
 }
 
 .tiket-info-wrapper .text {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #f2f2f2;
   text-align: center;
   max-width: 600px;
 }
 
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .ticket-image {
+    height: 160px;
+  }
 
+  .daftar-tiket-section .section-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ticket-cards {
+    grid-template-columns: 1fr;
+  }
+}
 
 /* About Section - Responsive Compact Version */
 .about-section {

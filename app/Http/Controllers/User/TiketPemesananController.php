@@ -161,21 +161,26 @@ class TiketPemesananController extends Controller
     }
 
     public function download($id)
-    {
-        $pemesanans = Pemesanan::findOrFail($id);
+{
+    $pemesanan = Pemesanan::with(['tiket', 'user'])
+        ->where('user_id', auth()->id())
+        ->findOrFail($id);
 
-        if ($pemesanans->user_id !== auth()->id()) {
-            abort(403, 'Tidak diizinkan');
-        }
+    // Pastikan tiket aktif
+    if (!in_array($pemesanan->status, ['selesai', 'tiket terpakai'])) {
 
-        $filePath = storage_path(
-            'app/public/tiket/' . $pemesanans->kode_qr . '.pdf'
-        );
-
-        if (!file_exists($filePath)) {
-            abort(404, 'Tiket tidak ditemukan');
-        }
-
-        return response()->download($filePath);
+        return redirect()
+            ->route('user.pemesanan.index')
+            ->with('error', 'Tiket belum tersedia.');
     }
+
+    // Generate QR otomatis jika belum ada
+    if (empty($pemesanan->kode_qr)) {
+
+        $pemesanan->kode_qr = Str::uuid()->toString();
+        $pemesanan->save();
+    }
+
+    return view('user.tiket.download', compact('pemesanan'));
+}
 }

@@ -3,113 +3,211 @@
 @section('content')
 
 <style>
-    body {
-        background-color: #f5f5fa;
+
+/* =========================
+   BODY
+========================= */
+
+body{
+    background:#f5f5fa;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+    background:#fff;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 6px 20px rgba(0,0,0,.08);
+}
+
+/* =========================
+   TITLE
+========================= */
+
+h2{
+    font-weight:800;
+    color:#6f42c1;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table{
+    width:100%;
+    border-collapse:collapse;
+    overflow:hidden;
+}
+
+.table thead{
+    background:#6f42c1;
+    color:#fff;
+}
+
+.table th,
+.table td{
+    padding:14px 12px;
+    border:1px solid #e9e9e9;
+    text-align:center;
+    vertical-align:middle;
+    font-size:.93rem;
+}
+
+/* =========================
+   BADGE
+========================= */
+
+.badge{
+    padding:7px 12px;
+    border-radius:10px;
+    font-size:.8rem;
+    font-weight:700;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn{
+    border-radius:10px !important;
+    font-size:.85rem !important;
+    font-weight:600;
+    padding:8px 14px !important;
+}
+
+.btn-primary{
+    background:#6f42c1 !important;
+    border:none !important;
+}
+
+.btn-primary:hover{
+    background:#5b35a0 !important;
+}
+
+.btn-warning{
+    border:none !important;
+}
+
+.btn-download{
+    display:inline-block;
+    margin-top:10px;
+    background:linear-gradient(135deg,#6f42c1,#9b6dff);
+    color:#fff;
+    text-decoration:none;
+    padding:9px 14px;
+    border-radius:12px;
+    font-size:.82rem;
+    font-weight:700;
+    transition:.2s;
+}
+
+.btn-download:hover{
+    transform:translateY(-2px);
+    color:#fff;
+}
+
+/* =========================
+   QR
+========================= */
+
+.qr-box{
+    display:inline-block;
+    padding:8px;
+    background:#fff;
+    border-radius:12px;
+    border:1px solid #eee;
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+}
+
+/* =========================
+   ALERT
+========================= */
+
+.alert{
+    border:none;
+    border-radius:12px;
+    padding:14px 18px;
+}
+
+.alert-info{
+    background:#eef4ff;
+    color:#345;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+    .container{
+        padding:18px;
     }
 
-    .container {
-        background: #ffffff;
-        padding: 30px;
-        border-radius: 16px;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-        max-width: 100%;
+    .table thead{
+        display:none;
     }
 
-    h2 {
-        font-weight: bold;
-        color: #6f42c1;
-        text-align: center;
-        margin-bottom: 30px;
+    .table,
+    .table tbody,
+    .table tr,
+    .table td{
+        display:block;
+        width:100%;
     }
 
-    .table {
-        border-collapse: collapse;
-        width: 100%;
-        margin-bottom: 20px;
+    .table tr{
+        margin-bottom:16px;
+        border:1px solid #eee;
+        border-radius:14px;
+        overflow:hidden;
+        background:#fff;
     }
 
-    .table thead {
-        background-color: #6f42c1;
-        color: #fff;
-        text-align: center;
+    .table td{
+        text-align:right;
+        padding-left:50%;
+        position:relative;
+        border-bottom:1px solid #f1f1f1;
     }
 
-    .table th,
-    .table td {
-        padding: 14px 12px;
-        border: 1px solid #dee2e6;
-        font-size: 0.95rem;
-        vertical-align: middle;
-        text-align: center;
+    .table td:last-child{
+        border-bottom:none;
     }
 
-    .badge {
-        font-size: 0.85rem;
-        padding: 6px 12px;
-        border-radius: 10px;
-        font-weight: 500;
+    .table td::before{
+        content:attr(data-label);
+        position:absolute;
+        left:14px;
+        top:14px;
+        font-weight:700;
+        color:#6f42c1;
+        text-align:left;
     }
 
-    .btn-primary {
-        background-color: #6f42c1;
-        border: none;
-        padding: 6px 14px;
-        border-radius: 10px;
-        font-size: 0.85rem;
+    .btn,
+    .btn-download{
+        width:100%;
     }
 
-    .btn-primary:hover {
-        background-color: #5a339e;
+    .qr-box svg{
+        width:90px !important;
+        height:90px !important;
     }
+}
 
-    .alert-info {
-        background-color: #e9f2ff;
-        color: #2c5282;
-        padding: 15px;
-        border-left: 5px solid #6f42c1;
-        border-radius: 10px;
-    }
-
-    @media (max-width: 768px) {
-        .table thead {
-            display: none;
-        }
-
-        .table,
-        .table tbody,
-        .table tr,
-        .table td {
-            display: block;
-            width: 100%;
-        }
-
-        .table tr {
-            margin-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-
-        .table td {
-            text-align: left;
-            padding-left: 50%;
-            position: relative;
-        }
-
-        .table td::before {
-            content: attr(data-label);
-            position: absolute;
-            left: 12px;
-            width: 45%;
-            padding-right: 10px;
-            font-weight: bold;
-            color: #6f42c1;
-        }
-    }
 </style>
 
 <div class="container mt-5">
+
     <h2>Riwayat Pemesanan Tiket</h2>
 
-    {{-- Flash Message --}}
+    {{-- FLASH --}}
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -123,26 +221,33 @@
     @endif
 
     @if($pemesanans->isEmpty())
+
         <div class="alert alert-info">
             Kamu belum pernah memesan tiket.
         </div>
+
     @else
-        <table class="table table-bordered mt-3">
+
+        <table class="table">
+
             <thead>
                 <tr>
-                    <th>Kode Transaksi</th>
-                    <th>Nama Tiket</th>
+                    <th>Kode</th>
+                    <th>Tiket</th>
                     <th>Jumlah</th>
-                    <th>Total Harga</th>
-                    <th>Tanggal Kunjungan</th>
+                    <th>Total</th>
+                    <th>Tanggal</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
 
             <tbody>
+
                 @foreach($pemesanans as $item)
+
                     <tr>
+
                         <td data-label="Kode">
                             {{ $item->kode_transaksi }}
                         </td>
@@ -155,8 +260,8 @@
                             {{ $item->jumlah_tiket }}
                         </td>
 
-                        <td data-label="Total Harga">
-                            Rp{{ number_format($item->total_harga, 0, ',', '.') }}
+                        <td data-label="Total">
+                            Rp{{ number_format($item->total_harga,0,',','.') }}
                         </td>
 
                         <td data-label="Tanggal">
@@ -164,114 +269,120 @@
                         </td>
 
                         <td data-label="Status">
+
                             @if($item->status == 'menunggu')
+
                                 <span class="badge bg-warning text-dark">
                                     Menunggu
                                 </span>
 
                             @elseif($item->status == 'dibayar')
+
                                 <span class="badge bg-success">
                                     Dibayar
                                 </span>
 
                             @elseif($item->status == 'selesai')
-                                <span class="badge bg-primary">
+
+                                <span class="badge bg-primary text-white">
                                     Selesai
                                 </span>
 
                             @elseif($item->status == 'batal')
+
                                 <span class="badge bg-danger">
                                     Batal
                                 </span>
 
                             @elseif($item->status == 'tiket terpakai')
+
                                 <span class="badge bg-dark">
                                     Tiket Terpakai
                                 </span>
 
-                            @else
-                                <span class="badge bg-secondary">
-                                    {{ ucfirst($item->status) }}
-                                </span>
                             @endif
+
                         </td>
 
                         <td data-label="Aksi">
 
-                            {{-- STATUS MENUNGGU --}}
+                            {{-- MENUNGGU --}}
                             @if($item->status == 'menunggu')
 
                                 @if($item->snap_token)
 
-                                    <button 
-                                        class="btn btn-sm btn-primary pay-button"
+                                    <button
+                                        class="btn btn-primary btn-sm pay-button"
                                         data-token="{{ $item->snap_token }}">
+
                                         Bayar
+
                                     </button>
 
                                 @else
 
                                     <a href="{{ route('user.pemesanan.bayar', $item->id) }}"
-                                    class="btn btn-sm btn-warning">
+                                       class="btn btn-warning btn-sm">
+
                                         Buat Pembayaran
+
                                     </a>
 
                                 @endif
 
-                            {{-- STATUS DIBAYAR --}}
+                            {{-- DIBAYAR --}}
                             @elseif($item->status == 'dibayar')
 
-                            <span class="text-success d-block mb-2">
-                                Pembayaran berhasil
-                            </span>
-
-                            <small class="text-muted">
-                                Tiket akan otomatis aktif dalam 30 detik...
-                            </small>
-
-                            <script>
-                                setTimeout(function () {
-                                    location.reload();
-                                }, 30000);
-                            </script>
-
-                            {{-- STATUS SELESAI --}}
-                            @elseif($item->status == 'selesai')
-
-                                <div>
-                                    <span class="text-muted d-block mb-2">
-                                        Tiket Siap Digunakan
-                                    </span>
-
-                                    @if($item->kode_qr)
-
-                                        {!! QrCode::size(120)->generate(url('/petugas/pemesanan/' . $item->kode_qr)) !!}
-
-                                        <br>
-
-                                        <a href="{{ route('user.tiket.download', $item->id) }}"
-                                           class="btn btn-sm btn-primary mt-2">
-                                            Download QR
-                                        </a>
-
-                                        <a href="{{ route('user.tiket.qr', $item->id) }}"
-                                           class="btn btn-sm btn-success mt-2">
-                                            Lihat QR Code
-                                        </a>
-
-                                    @else
-
-                                        <span class="text-danger">
-                                            QR Code belum tersedia
-                                        </span>
-
-                                    @endif
+                                <div class="text-success fw-bold mb-1">
+                                    Pembayaran Berhasil
                                 </div>
 
-                            {{-- STATUS TIKET TERPAKAI --}}
+                                <small class="text-muted">
+                                    Tiket aktif dalam 30 detik...
+                                </small>
+
+                                <script>
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 30000);
+                                </script>
+
+                            {{-- SELESAI --}}
+                            @elseif($item->status == 'selesai')
+
+                                @if($item->kode_qr)
+
+                                    <div class="qr-box mb-2">
+
+                                        {!! QrCode::size(80)->generate(url('/petugas/pemesanan/' . $item->kode_qr)) !!}
+
+                                    </div>
+
+                                    <br>
+
+                                    <button
+                                        type="button"
+                                        class="btn-download open-ticket"
+                                        data-url="{{ route('user.tiket.download', $item->id) }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#ticketModal">
+
+                                        Download E-Tiket
+
+                                    </button>
+
+                                @else
+
+                                    <span class="text-danger">
+                                        QR belum tersedia
+                                    </span>
+
+                                @endif
+
+                            {{-- TERPAKAI --}}
                             @elseif($item->status == 'tiket terpakai')
 
-                                <span class="text-danger">
+                                <span class="text-danger fw-bold">
                                     Tiket Sudah Digunakan
                                 </span>
 
@@ -282,61 +393,144 @@
                             @endif
 
                         </td>
+
                     </tr>
+
                 @endforeach
+
             </tbody>
+
         </table>
+
     @endif
+
+    {{-- MODAL E-TIKET --}}
+<div
+    class="modal fade"
+    id="ticketModal"
+    tabindex="-1"
+    aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div
+            class="modal-content"
+            style="
+                border:none;
+                border-radius:22px;
+                overflow:hidden;
+            ">
+
+            {{-- CLOSE --}}
+            <button
+                type="button"
+                class="btn-close position-absolute end-0 m-3"
+                data-bs-dismiss="modal"
+                style="z-index:10;">
+            </button>
+
+            {{-- CONTENT --}}
+            <iframe
+                id="ticketFrame"
+                src=""
+                width="100%"
+                height="620"
+                style="
+                    border:none;
+                    background:#fff;
+                ">
+            </iframe>
+
+        </div>
+
+    </div>
+
+</div>
+
 </div>
 
 {{-- MIDTRANS --}}
-<script 
+<script
     src="https://app.sandbox.midtrans.com/snap/snap.js"
     data-client-key="{{ config('services.midtrans.clientKey') }}">
 </script>
 
 <script>
-    document.querySelectorAll('.pay-button').forEach(button => {
 
-        button.addEventListener('click', function () {
+document.querySelectorAll('.pay-button').forEach(button => {
 
-            let snapToken = this.dataset.token;
+    button.addEventListener('click', function () {
 
-            if (!snapToken) {
-                alert('Snap token tidak ditemukan!');
-                return;
+        let snapToken = this.dataset.token;
+
+        if (!snapToken) {
+            alert('Snap token tidak ditemukan!');
+            return;
+        }
+
+        snap.pay(snapToken, {
+
+            onSuccess: function(result) {
+
+                alert("Pembayaran berhasil!");
+                console.log(result);
+
+                window.location.reload();
+            },
+
+            onPending: function(result) {
+
+                alert("Menunggu pembayaran...");
+                console.log(result);
+
+                window.location.reload();
+            },
+
+            onError: function(result) {
+
+                alert("Pembayaran gagal!");
+                console.log(result);
+            },
+
+            onClose: function() {
+
+                alert('Popup pembayaran ditutup.');
             }
-
-            snap.pay(snapToken, {
-
-                onSuccess: function(result) {
-                    alert("Pembayaran berhasil!");
-                    console.log(result);
-
-                    window.location.reload();
-                },
-
-                onPending: function(result) {
-                    alert("Menunggu pembayaran...");
-                    console.log(result);
-
-                    window.location.reload();
-                },
-
-                onError: function(result) {
-                    alert("Pembayaran gagal!");
-                    console.log(result);
-                },
-
-                onClose: function() {
-                    alert('Popup pembayaran ditutup.');
-                }
-
-            });
 
         });
 
     });
+
+});
+
 </script>
+
+<script>
+
+document.querySelectorAll('.open-ticket').forEach(button => {
+
+    button.addEventListener('click', function () {
+
+        let url = this.dataset.url;
+
+        document.getElementById('ticketFrame').src = url;
+
+    });
+
+});
+
+
+// RESET iframe saat modal ditutup
+document.getElementById('ticketModal')
+.addEventListener('hidden.bs.modal', function () {
+
+    document.getElementById('ticketFrame').src = '';
+
+});
+
+</script>
+
+{{-- BOOTSTRAP JS --}}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 @endsection

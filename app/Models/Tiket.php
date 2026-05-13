@@ -14,5 +14,6 @@ class Tiket extends Model
         'deskripsi',
         'harga',
         'stok',
+        'gambar_tiket',
     ];
 }

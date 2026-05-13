@@ -2,9 +2,8 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>{{ isset($tiket) ? 'Edit Tiket' : 'Tambah Tiket' }}</h2>
+    <h2>Tambah Tiket</h2>
 
-    {{-- Tampilkan error validasi --}}
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul class="mb-0">
@@ -15,32 +14,20 @@
         </div>
     @endif
 
-    <form 
-        action="{{ isset($tiket) ? route('admin.tiket.update', $tiket->id) : route('admin.tiket.store') }}" 
-        method="POST"
-    >
+    <form action="{{ route('admin.tiket.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @if (isset($tiket))
-            @method('PUT')
-        @endif
 
         {{-- Nama Tiket --}}
         <div class="mb-3">
-            <label for="nama_tiket" class="form-label">Nama Tiket</label>
-            <input 
-                type="text" 
-                name="nama_tiket" 
-                id="nama_tiket" 
-                class="form-control" 
-                value="{{ old('nama_tiket', $tiket->nama_tiket ?? '') }}" 
-                required
-            >
+            <label class="form-label">Nama Tiket</label>
+            <input type="text" name="nama_tiket" class="form-control"
+                value="{{ old('nama_tiket') }}" required>
         </div>
 
         {{-- Kategori --}}
         <div class="mb-3">
-            <label for="kategori" class="form-label">Kategori</label>
-            <select class="form-control" name="kategori" id="kategori" required>
+            <label class="form-label">Kategori</label>
+            <select name="kategori" class="form-control" required>
                 <option value="">-- Pilih Kategori --</option>
                 @php
                     $kategoriList = [
@@ -49,10 +36,9 @@
                         'Tiket Anak-anak' => 'Anak-anak',
                         'Tiket Paket Keluarga' => 'Paket Keluarga'
                     ];
-                    $selectedKategori = old('kategori', $tiket->kategori ?? '');
                 @endphp
                 @foreach ($kategoriList as $value => $label)
-                    <option value="{{ $value }}" {{ $selectedKategori == $value ? 'selected' : '' }}>
+                    <option value="{{ $value }}" {{ old('kategori') == $value ? 'selected' : '' }}>
                         {{ $label }}
                     </option>
                 @endforeach
@@ -61,45 +47,30 @@
 
         {{-- Harga --}}
         <div class="mb-3">
-            <label for="harga" class="form-label">Harga</label>
-            <input 
-                type="number" 
-                class="form-control" 
-                name="harga" 
-                id="harga" 
-                value="{{ old('harga', $tiket->harga ?? '') }}" 
-                required 
-                min="0"
-            >
+            <label class="form-label">Harga</label>
+            <input type="number" name="harga" class="form-control"
+                value="{{ old('harga') }}" min="0" required>
         </div>
 
         {{-- Stok --}}
         <div class="mb-3">
-            <label for="stok" class="form-label">Stok Tiket</label>
-            <input 
-                type="number" 
-                name="stok" 
-                id="stok" 
-                class="form-control" 
-                required 
-                min="0" 
-                value="{{ old('stok', $tiket->stok ?? '') }}"
-            >
+            <label class="form-label">Stok Tiket</label>
+            <input type="number" name="stok" class="form-control"
+                value="{{ old('stok') }}" min="0" required>
         </div>
 
         {{-- Deskripsi --}}
         <div class="mb-3">
-            <label for="deskripsi" class="form-label">Deskripsi</label>
-            <textarea 
-                class="form-control" 
-                name="deskripsi" 
-                id="deskripsi" 
-                rows="3" 
-                required
-            >{{ old('deskripsi', $tiket->deskripsi ?? '') }}</textarea>
+            <label class="form-label">Deskripsi</label>
+            <textarea name="deskripsi" class="form-control" rows="3" required>{{ old('deskripsi') }}</textarea>
         </div>
 
-        {{-- Tombol --}}
+        {{-- Gambar --}}
+        <div class="mb-3">
+            <label class="form-label">Gambar Tiket</label>
+            <input type="file" name="gambar_tiket" class="form-control" accept="image/*">
+        </div>
+
         <button type="submit" class="btn btn-primary">Simpan</button>
         <a href="{{ route('admin.tiket.index') }}" class="btn btn-secondary">Kembali</a>
     </form>

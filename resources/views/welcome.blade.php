@@ -123,7 +123,23 @@
                     <div class="ticket-cards">
                         @foreach($tikets as $tiket)
                             <div class="ticket-card">
+
+                                {{-- Gambar Tiket --}}
+                                <div class="ticket-image">
+                                    @if($tiket->gambar_tiket)
+                                        <img src="{{ asset($tiket->gambar_tiket) }}" alt="{{ $tiket->nama_tiket }}">
+                                    @else
+                                        <img src="{{ asset('img/default-ticket.jpg') }}" alt="Default Ticket">
+                                    @endif
+                                </div>
+
+                                {{-- Nama Tiket --}}
                                 <h3>{{ $tiket->nama_tiket }}</h3>
+
+                                {{-- Kategori (opsional biar keren) --}}
+                                <small class="text-muted">{{ $tiket->kategori }}</small>
+
+                                {{-- Harga --}}
                                 <p>
                                     @if($tiket->harga)
                                         Rp {{ number_format($tiket->harga, 0, ',', '.') }}
@@ -131,9 +147,12 @@
                                         Hubungi admin untuk detail harga
                                     @endif
                                 </p>
+
+                                {{-- Tombol --}}
                                 <a href="#" class="button">
                                     {{ $tiket->harga ? 'Dapatkan Tiket' : 'Hubungi Kami' }}
                                 </a>
+
                             </div>
                         @endforeach
                     </div>
