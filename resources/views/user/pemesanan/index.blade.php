@@ -9,29 +9,112 @@
 ========================= */
 
 body{
-    background:#f5f5fa;
+    background:
+        linear-gradient(
+            135deg,
+            #f3f0ff,
+            #ffffff
+        );
+}
+
+/* =========================
+   WRAPPER
+========================= */
+
+.history-wrapper{
+
+    min-height:100vh;
+
+    padding:35px 15px;
 }
 
 /* =========================
    CONTAINER
 ========================= */
 
-.container{
+.history-container{
+
+    width:100%;
+
+    max-width:1250px;
+
+    margin:auto;
+
     background:#fff;
+
+    border-radius:28px;
+
     padding:30px;
-    border-radius:18px;
-    box-shadow:0 6px 20px rgba(0,0,0,.08);
+
+    box-shadow:
+        0 15px 40px rgba(111,66,193,.08);
 }
 
 /* =========================
    TITLE
 ========================= */
 
-h2{
-    font-weight:800;
-    color:#6f42c1;
+.page-title{
+
     text-align:center;
+
     margin-bottom:30px;
+}
+
+.page-title h2{
+
+    font-size:2rem;
+
+    font-weight:800;
+
+    color:#6f42c1;
+
+    margin-bottom:8px;
+}
+
+.page-title p{
+
+    color:#777;
+
+    font-size:.95rem;
+}
+
+/* =========================
+   ALERT
+========================= */
+
+.alert{
+
+    border:none;
+
+    border-radius:16px;
+
+    padding:16px 18px;
+
+    font-weight:500;
+}
+
+.alert-success{
+    background:#eafaf0;
+    color:#18a957;
+}
+
+.alert-danger{
+    background:#ffeaea;
+    color:#dc3545;
+}
+
+.alert-info{
+    background:#eef4ff;
+    color:#355;
+}
+
+/* =========================
+   TABLE WRAPPER
+========================= */
+
+.table-wrapper{
+    overflow-x:auto;
 }
 
 /* =========================
@@ -39,23 +122,85 @@ h2{
 ========================= */
 
 .table{
+
     width:100%;
-    border-collapse:collapse;
-    overflow:hidden;
+
+    border-collapse:separate;
+
+    border-spacing:0 14px;
 }
 
-.table thead{
-    background:#6f42c1;
+.table thead th{
+
+    background:
+        linear-gradient(
+            135deg,
+            #6f42c1,
+            #9b6dff
+        );
+
     color:#fff;
+
+    border:none;
+
+    padding:16px 14px;
+
+    font-size:.9rem;
+
+    font-weight:700;
+
+    text-align:center;
 }
 
-.table th,
+.table thead th:first-child{
+    border-radius:16px 0 0 16px;
+}
+
+.table thead th:last-child{
+    border-radius:0 16px 16px 0;
+}
+
+.table tbody tr{
+
+    background:#fff;
+    color:#2d2d2d;
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,.05);
+
+    transition:.3s;
+}
+
+.table tbody tr:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 10px 22px rgba(0,0,0,.08);
+}
+
 .table td{
-    padding:14px 12px;
-    border:1px solid #e9e9e9;
+
+    padding:18px 14px;
+
     text-align:center;
+
     vertical-align:middle;
-    font-size:.93rem;
+
+    border:none;
+
+    font-size:.92rem;
+    color:#2d2d2d !important;
+
+    font-weight:600;
+}
+
+.table tbody td:first-child{
+    border-radius:18px 0 0 18px;
+}
+
+.table tbody td:last-child{
+    border-radius:0 18px 18px 0;
 }
 
 /* =========================
@@ -63,10 +208,16 @@ h2{
 ========================= */
 
 .badge{
-    padding:7px 12px;
-    border-radius:10px;
-    font-size:.8rem;
+
+    padding:9px 14px;
+
+    border-radius:999px;
+
+    font-size:.78rem;
+
     font-weight:700;
+
+    letter-spacing:.3px;
 }
 
 /* =========================
@@ -74,40 +225,74 @@ h2{
 ========================= */
 
 .btn{
-    border-radius:10px !important;
-    font-size:.85rem !important;
-    font-weight:600;
-    padding:8px 14px !important;
+
+    border:none !important;
+
+    border-radius:14px !important;
+
+    padding:10px 16px !important;
+
+    font-size:.84rem !important;
+
+    font-weight:700 !important;
+
+    transition:.25s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
 }
 
 .btn-primary{
-    background:#6f42c1 !important;
-    border:none !important;
-}
 
-.btn-primary:hover{
-    background:#5b35a0 !important;
+    background:
+        linear-gradient(
+            135deg,
+            #6f42c1,
+            #9b6dff
+        ) !important;
 }
 
 .btn-warning{
-    border:none !important;
+    background:#ffc107 !important;
 }
 
 .btn-download{
-    display:inline-block;
-    margin-top:10px;
-    background:linear-gradient(135deg,#6f42c1,#9b6dff);
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #6f42c1,
+            #9b6dff
+        );
+
     color:#fff;
+
     text-decoration:none;
-    padding:9px 14px;
-    border-radius:12px;
+
+    padding:11px 16px;
+
+    border-radius:14px;
+
     font-size:.82rem;
+
     font-weight:700;
-    transition:.2s;
+
+    transition:.25s;
 }
 
 .btn-download:hover{
+
     transform:translateY(-2px);
+
     color:#fff;
 }
 
@@ -116,27 +301,60 @@ h2{
 ========================= */
 
 .qr-box{
-    display:inline-block;
-    padding:8px;
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:10px;
+
+    border-radius:18px;
+
     background:#fff;
-    border-radius:12px;
+
     border:1px solid #eee;
-    box-shadow:0 4px 12px rgba(0,0,0,.05);
+
+    box-shadow:
+        0 6px 16px rgba(0,0,0,.05);
 }
 
 /* =========================
-   ALERT
+   PAYMENT SUCCESS
 ========================= */
 
-.alert{
-    border:none;
-    border-radius:12px;
-    padding:14px 18px;
+.payment-success{
+
+    color:#18a957;
+
+    font-weight:700;
+
+    margin-bottom:4px;
 }
 
-.alert-info{
-    background:#eef4ff;
-    color:#345;
+/* =========================
+   MODAL
+========================= */
+
+.modal-content{
+
+    border:none !important;
+
+    border-radius:24px !important;
+
+    overflow:hidden;
+}
+
+#ticketFrame{
+
+    width:100%;
+
+    height:650px;
+
+    border:none;
+
+    background:#fff;
 }
 
 /* =========================
@@ -145,8 +363,23 @@ h2{
 
 @media(max-width:768px){
 
-    .container{
-        padding:18px;
+    .history-wrapper{
+        padding:20px 10px;
+    }
+
+    .history-container{
+
+        padding:20px 15px;
+
+        border-radius:22px;
+    }
+
+    .page-title h2{
+        font-size:1.5rem;
+    }
+
+    .table{
+        border-spacing:0 16px;
     }
 
     .table thead{
@@ -162,18 +395,23 @@ h2{
     }
 
     .table tr{
-        margin-bottom:16px;
-        border:1px solid #eee;
-        border-radius:14px;
+
+        border-radius:20px;
+
         overflow:hidden;
-        background:#fff;
+
+        padding:10px 0;
     }
 
     .table td{
+
         text-align:right;
-        padding-left:50%;
+
+        padding:14px 18px 14px 50%;
+
         position:relative;
-        border-bottom:1px solid #f1f1f1;
+
+        border-bottom:1px solid #f3f3f3;
     }
 
     .table td:last-child{
@@ -181,13 +419,25 @@ h2{
     }
 
     .table td::before{
+
         content:attr(data-label);
+
         position:absolute;
-        left:14px;
+
+        left:18px;
+
         top:14px;
+
         font-weight:700;
+
         color:#6f42c1;
+
         text-align:left;
+    }
+
+    .table tbody td:first-child,
+    .table tbody td:last-child{
+        border-radius:0;
     }
 
     .btn,
@@ -196,55 +446,95 @@ h2{
     }
 
     .qr-box svg{
-        width:90px !important;
-        height:90px !important;
+
+        width:85px !important;
+        height:85px !important;
     }
+
+    #ticketFrame{
+        height:620px;
+    }
+
+    .table td::before{
+
+    content:attr(data-label);
+
+    position:absolute;
+
+    left:18px;
+
+    top:14px;
+
+    font-weight:700;
+
+    color:#6f42c1 !important;
+
+    text-align:left;
+}
+
 }
 
 </style>
 
-<div class="container mt-5">
+<div class="history-wrapper">
 
-    <h2>Riwayat Pemesanan Tiket</h2>
+    <div class="history-container">
 
-    {{-- FLASH --}}
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+        {{-- TITLE --}}
+        <div class="page-title">
 
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
+            <h2>Riwayat Pemesanan Tiket</h2>
 
-    @if($pemesanans->isEmpty())
+            <p>
+                Semua tiket wisata yang pernah kamu pesan akan tampil di sini.
+            </p>
 
-        <div class="alert alert-info">
-            Kamu belum pernah memesan tiket.
         </div>
 
-    @else
+        {{-- FLASH --}}
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-        <table class="table">
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
-            <thead>
-                <tr>
-                    <th>Kode</th>
-                    <th>Tiket</th>
-                    <th>Jumlah</th>
-                    <th>Total</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
+        @if($pemesanans->isEmpty())
 
-            <tbody>
+            <div class="alert alert-info">
+                Kamu belum pernah memesan tiket.
+            </div>
 
-                @foreach($pemesanans as $item)
+        @else
+
+        <div class="table-wrapper">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Kode</th>
+                        <th>Tiket</th>
+                        <th>Jumlah</th>
+                        <th>Total</th>
+                        <th>Tanggal</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($pemesanans as $item)
 
                     <tr>
 
@@ -315,7 +605,7 @@ h2{
                                         class="btn btn-primary btn-sm pay-button"
                                         data-token="{{ $item->snap_token }}">
 
-                                        Bayar
+                                        Bayar Sekarang
 
                                     </button>
 
@@ -333,7 +623,7 @@ h2{
                             {{-- DIBAYAR --}}
                             @elseif($item->status == 'dibayar')
 
-                                <div class="text-success fw-bold mb-1">
+                                <div class="payment-success">
                                     Pembayaran Berhasil
                                 </div>
 
@@ -354,7 +644,7 @@ h2{
 
                                     <div class="qr-box mb-2">
 
-                                        {!! QrCode::size(80)->generate(url('/petugas/pemesanan/' . $item->kode_qr)) !!}
+                                        {!! QrCode::size(85)->generate(url('/petugas/pemesanan/' . $item->kode_qr)) !!}
 
                                     </div>
 
@@ -396,32 +686,31 @@ h2{
 
                     </tr>
 
-                @endforeach
+                    @endforeach
 
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
 
-    @endif
+        </div>
 
-    {{-- MODAL E-TIKET --}}
+        @endif
+
+    </div>
+
+</div>
+
+{{-- MODAL --}}
 <div
     class="modal fade"
     id="ticketModal"
     tabindex="-1"
     aria-hidden="true">
 
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
 
-        <div
-            class="modal-content"
-            style="
-                border:none;
-                border-radius:22px;
-                overflow:hidden;
-            ">
+        <div class="modal-content">
 
-            {{-- CLOSE --}}
             <button
                 type="button"
                 class="btn-close position-absolute end-0 m-3"
@@ -429,23 +718,14 @@ h2{
                 style="z-index:10;">
             </button>
 
-            {{-- CONTENT --}}
             <iframe
                 id="ticketFrame"
-                src=""
-                width="100%"
-                height="620"
-                style="
-                    border:none;
-                    background:#fff;
-                ">
+                src="">
             </iframe>
 
         </div>
 
     </div>
-
-</div>
 
 </div>
 
@@ -464,6 +744,7 @@ document.querySelectorAll('.pay-button').forEach(button => {
         let snapToken = this.dataset.token;
 
         if (!snapToken) {
+
             alert('Snap token tidak ditemukan!');
             return;
         }
@@ -519,8 +800,6 @@ document.querySelectorAll('.open-ticket').forEach(button => {
 
 });
 
-
-// RESET iframe saat modal ditutup
 document.getElementById('ticketModal')
 .addEventListener('hidden.bs.modal', function () {
 
@@ -530,7 +809,6 @@ document.getElementById('ticketModal')
 
 </script>
 
-{{-- BOOTSTRAP JS --}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 @endsection

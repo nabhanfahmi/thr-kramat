@@ -5,47 +5,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>THR | KRAMAT</title>
 
-    <!-- Bootstrap & Font Awesome -->
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    <!-- SweetAlert2 -->
+    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-
 <body>
-    <!-- ===== HEADER ===== -->
+
+    <!-- STAR BACKGROUND -->
+    <div class="stars"></div>
+
+    <!-- HEADER -->
     <header id="main-header" class="transparent">
         <nav class="navbar section-content">
+
             <a href="#" class="nav-logo">
-                <img src="{{ asset('img/logo/logothr.png') }}" alt="Logo THR Kramat" class="logo-image" />
+                <img src="{{ asset('img/logo/logothr.png') }}" alt="Logo" class="logo-image">
             </a>
 
             <ul class="nav-menu">
                 <button id="menu-close-button" class="fas fa-times"></button>
-                <li class="nav-item"><a href="#beranda2" class="nav-link">BERANDA</a></li>
-                <li class="nav-item"><a href="#galeri" class="nav-link">GALERI WISATA</a></li>
-                <li class="nav-item"><a href="#daftar-tiket" class="nav-link">DAFTAR TIKET</a></li>
-                <li class="nav-item">
-                    @auth
-                        <a href="{{ route('user.tiket.index') }}" class="nav-link">BELI TIKET</a>
-                    @else
-                        <a href="javascript:void(0);" onclick="alertLogin()" class="nav-link">BELI TIKET</a>
-                    @endauth
-                </li>
+
+                <li class="nav-item"><a href="#" class="nav-link">BERANDA</a></li>
+                <li class="nav-item"><a href="#galeri" class="nav-link">GALERI</a></li>
+                <li class="nav-item"><a href="#daftar-tiket" class="nav-link">TIKET</a></li>
                 <li class="nav-item"><a href="#aboutus" class="nav-link">TENTANG</a></li>
+
                 @auth
                     <li class="nav-item">
-                        <form method="POST" action="{{ route('user.logout') }}">
-                            @csrf
-                            <button class="btn btn-sm btn-danger">Logout</button>
-                        </form>
+                        <a href="{{ route('user.tiket.index') }}" class="nav-link special-btn">
+                            BELI TIKET
+                        </a>
                     </li>
+
+                    {{-- USER MENU --}}
+<li class="nav-item dropdown-user">
+
+    <button
+        class="user-menu-btn"
+        id="userMenuToggle">
+
+        @if(Auth::user()->foto)
+
+            <img
+                src="{{ asset('uploads/profil/' . Auth::user()->foto) }}"
+                class="user-menu-img">
+
+        @else
+
+            <img
+                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6f42c1&color=fff"
+                class="user-menu-img">
+
+        @endif
+
+        <span>
+            {{ Auth::user()->name }}
+        </span>
+
+        <i class="fas fa-chevron-down"></i>
+
+    </button>
+
+    {{-- POPUP MENU --}}
+    <div class="user-dropdown-menu" id="userDropdownMenu">
+
+        {{-- PROFILE --}}
+        <div class="dropdown-profile">
+
+            @if(Auth::user()->foto)
+
+                <img
+                    src="{{ asset('uploads/profil/' . Auth::user()->foto) }}"
+                    class="dropdown-profile-img">
+
+            @else
+
+                <img
+                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6f42c1&color=fff"
+                    class="dropdown-profile-img">
+
+            @endif
+
+            <div>
+
+                <div class="dropdown-profile-name">
+                    {{ Auth::user()->name }}
+                </div>
+
+                <div class="dropdown-profile-email">
+                    {{ Auth::user()->email }}
+                </div>
+
+            </div>
+
+        </div>
+
+        {{-- MENU --}}
+        <a href="{{ route('user.dashboard') }}" class="dropdown-link">
+            <i class="fas fa-home"></i>
+            Dashboard
+        </a>
+
+        <a href="{{ route('user.profil.index') }}" class="dropdown-link">
+            <i class="fas fa-user"></i>
+            Profil Saya
+        </a>
+
+        <a href="{{ route('user.pemesanan.index') }}" class="dropdown-link">
+            <i class="fas fa-ticket-alt"></i>
+            Riwayat Tiket
+        </a>
+
+        <div class="dropdown-divider"></div>
+
+        {{-- LOGOUT --}}
+        <form method="POST" action="{{ route('user.logout') }}">
+            @csrf
+
+            <button type="submit" class="dropdown-logout">
+
+                <i class="fas fa-sign-out-alt"></i>
+
+                Logout
+
+            </button>
+        </form>
+
+    </div>
+
+</li>
                 @else
-                    <li class="nav-item"><a href="#" onclick="openSidebar()" class="nav-link">MASUK/DAFTAR</a></li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0);" onclick="alertLogin()" class="nav-link special-btn">
+                            BELI TIKET
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" onclick="openSidebar()" class="nav-link">
+                            MASUK
+                        </a>
+                    </li>
                 @endauth
             </ul>
 
@@ -53,163 +161,325 @@
         </nav>
     </header>
 
-    <!-- ===== MAIN CONTENT ===== -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero-section scroll-reveal" id="beranda1">
-            <div class="hero-background">
-                @forelse($heros as $bg)
-                    <img src="{{ asset('storage/' . $bg->gambar) }}" class="bg-slide {{ $loop->first ? 'active' : '' }}" alt="BG {{ $loop->iteration }}">
-                @empty
-                    <img src="{{ asset('img/default-bg.jpg') }}" class="bg-slide active" alt="Default BG">
-                @endforelse
-            </div>
 
-            <div class="section-content" id="beranda2">
-                <div class="hero-details">
-                    <h2 class="title">Selamat Datang</h2>
-                    <h3 class="subtitle">Di Destinasi Wisata dan Kolam Renang Prestasi THR Kramat Batang</h3>
-                    <p class="description">
-                        "Nikmati saja hari liburmu, memikirkan hari esok yang belum terjadi secara berlebihan hanya akan membuatmu lupa mensyukuri hari liburmu."
-                    </p>
-                    <div class="buttons">
-                        <a href="#" class="button lihat-selengkapnya">Lihat Selengkapnya</a>
-                        <a href="#" class="button contact-us" id="contact-us">Contact Us</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- HERO -->
+    <section class="hero-section" id="beranda1">
 
-        <!-- Galeri Section -->
-        <section id="galeri" class="galeri-section scroll-reveal" style="width:100%;">
-            <div class="section-content" style="max-width:100%;">
-                <h2 class="section-title">Galeri Wisata & Berita</h2>
-                <div class="galeri-grid">
-                    @forelse ($galeri as $item)
-                        <div class="galeri-wrapper">
-                            <div class="galeri-item">
-                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="galeri" class="img-fluid rounded mb-2" style="object-fit: cover; max-height: 300px; width: 100%;">
-                                <h5 class="fw-bold mt-2">{{ $item->judul ?? 'Info Wisata' }}</h5>
-                                <p>{!! Str::limit($item->keterangan, 80) !!}</p>
-                            </div>
-                            <div class="text-center">
-                                <a href="{{ route('berita.show', $item->id) }}" class="btn btn-sm btn-outline-primary btn-read">Baca Selengkapnya</a>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center">
-                            <p class="text-muted">Belum ada gambar galeri.</p>
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-        </section>
-
-        <!-- Lightbox -->
-        <div class="lightbox" id="lightbox">
-            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-            <button class="lightbox-nav left" onclick="prevImage()">&#10094;</button>
-            <img id="lightbox-img" src="" alt="Preview">
-            <button class="lightbox-nav right" onclick="nextImage()">&#10095;</button>
+        <div class="hero-background">
+            @forelse($heros as $bg)
+                <img src="{{ asset('storage/' . $bg->gambar) }}"
+                     class="bg-slide {{ $loop->first ? 'active' : '' }}"
+                     alt="bg">
+            @empty
+                <img src="{{ asset('img/bg/bg1.jpeg') }}"
+                     class="bg-slide active"
+                     alt="bg">
+            @endforelse
         </div>
 
-        <!-- Tiket Section -->
-        <section id="daftar-tiket" class="daftar-tiket-section scroll-reveal">
-            <div class="section-content">
-                <h2 class="section-title">Daftar Tiket</h2>
-                @if($tikets->isEmpty())
-                    <p class="text-center">Belum ada tiket tersedia.</p>
-                @else
-                    <div class="ticket-cards">
-                        @foreach($tikets as $tiket)
-                            <div class="ticket-card">
+        <div class="hero-overlay"></div>
 
-                                {{-- Gambar Tiket --}}
-                                <div class="ticket-image">
-                                    @if($tiket->gambar_tiket)
-                                        <img src="{{ asset($tiket->gambar_tiket) }}" alt="{{ $tiket->nama_tiket }}">
-                                    @else
-                                        <img src="{{ asset('img/default-ticket.jpg') }}" alt="Default Ticket">
-                                    @endif
-                                </div>
+        <div class="section-content" id="beranda2">
+            <div class="hero-details">
 
-                                {{-- Nama Tiket --}}
-                                <h3>{{ $tiket->nama_tiket }}</h3>
+                <span class="hero-badge">
+                    DESTINASI WISATA
+                </span>
 
-                                {{-- Kategori (opsional biar keren) --}}
-                                <small class="text-muted">{{ $tiket->kategori }}</small>
+                <h1 class="title">
+                    THR KRAMAT BATANG
+                </h1>
 
-                                {{-- Harga --}}
-                                <p>
-                                    @if($tiket->harga)
-                                        Rp {{ number_format($tiket->harga, 0, ',', '.') }}
-                                    @else
-                                        Hubungi admin untuk detail harga
-                                    @endif
-                                </p>
+                <h3 class="subtitle">
+                    Wisata Keluarga • Kolam Prestasi • Rekreasi Modern
+                </h3>
 
-                                {{-- Tombol --}}
-                                <a href="#" class="button">
-                                    {{ $tiket->harga ? 'Dapatkan Tiket' : 'Hubungi Kami' }}
-                                </a>
+                <p class="description">
+                    Nikmati pengalaman wisata dengan suasana modern, nyaman, dan penuh hiburan bersama keluarga tercinta.
+                </p>
 
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-                <div class="tiket-info-wrapper">
-                    <p class="text">Pesan tiket dengan cepat dan mudah secara online. Nikmati wisata tanpa antre!</p>
+                <div class="buttons">
+                    <a href="#galeri" class="button primary-btn">
+                        Jelajahi Wisata
+                    </a>
+
+                    <a href="#daftar-tiket" class="button secondary-btn">
+                        Lihat Tiket
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- About Section -->
-        <section id="aboutus" class="about-section">
-            <div class="section-content">
-                <div class="about-image-wrapper">
-                    <img src="{{ asset('img/logo/logothr.jpg') }}" alt="About" class="about-image" />
+
+    <!-- GALERI -->
+<section id="galeri" class="galeri-section">
+
+    <div class="section-content">
+
+        <h2 class="section-title">
+            Galeri Wisata
+        </h2>
+
+        <div class="galeri-grid">
+
+            @forelse ($galeri as $index => $item)
+
+                <div class="galeri-item">
+
+                    {{-- IMAGE --}}
+                    <div
+                        class="image-wrapper open-gallery"
+                        data-index="{{ $index }}">
+
+                        <img
+                            src="{{ asset('storage/' . $item->gambar) }}"
+                            alt="galeri">
+
+                        <div class="image-overlay">
+                            🔍 Lihat Foto
+                        </div>
+
+                    </div>
+
+                    {{-- CONTENT --}}
+                    <div class="galeri-content">
+
+                        <h5>
+                            {{ $item->judul ?? 'Info Wisata' }}
+                        </h5>
+
+                        <p>
+                            {!! Str::limit($item->keterangan, 90) !!}
+                        </p>
+
+                        <a
+                            href="{{ route('berita.show', $item->id) }}"
+                            class="btn-read">
+
+                            Baca Selengkapnya
+
+                        </a>
+
+                    </div>
+
                 </div>
-                <div class="about-details">
-                    <h2 class="section-title">About Us</h2>
-                    <p class="text">
-                        THR Kramat adalah salah satu destinasi wisata keluarga yang populer di Kabupaten Batang, Jawa Tengah.
-                        Tempat ini menawarkan berbagai fasilitas kolam renang untuk anak-anak maupun dewasa, menjadikannya
-                        pilihan favorit masyarakat sekitar untuk berlibur dan berolahraga air.
-                        Dibangun untuk memenuhi kebutuhan hiburan masyarakat lokal, THR Kramat memiliki nuansa rekreasi yang
-                        ramah keluarga, dengan lingkungan yang tertata dan fasilitas yang terus diperbarui.
-                        Lokasinya yang strategis di pusat kota Batang memudahkan akses dari berbagai penjuru kabupaten.
+
+            @empty
+
+                <div class="empty-gallery">
+
+                    <div class="empty-icon">
+
+                        <i class="fas fa-image"></i>
+
+                    </div>
+
+                    <h4>
+                        Galeri Belum Tersedia
+                    </h4>
+
+                    <p class="empty-text">
+                        Saat ini belum ada foto wisata yang ditampilkan.
+                        Silakan kembali lagi nanti untuk melihat galeri terbaru.
                     </p>
-                    <div class="social-link-list">
-                        <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
+
+                </div>
+
+            @endforelse
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     POPUP GALLERY
+========================= -->
+
+<div class="gallery-popup" id="galleryPopup">
+
+    {{-- CLOSE --}}
+    <button class="close-gallery" id="closeGallery">
+        ✕
+    </button>
+
+    {{-- PREV --}}
+    <button class="nav-gallery prev-gallery" id="prevGallery">
+        ❮
+    </button>
+
+    {{-- IMAGE --}}
+    <div class="gallery-popup-content">
+
+        <img
+            id="popupImage"
+            src=""
+            alt="popup">
+
+    </div>
+
+    {{-- NEXT --}}
+    <button class="nav-gallery next-gallery" id="nextGallery">
+        ❯
+    </button>
+
+</div>
+
+
+    <!-- TIKET -->
+<section id="daftar-tiket" class="daftar-tiket-section">
+
+    <div class="section-content">
+
+        <div class="section-heading">
+
+            <h2 class="section-title">
+                Daftar Tiket
+            </h2>
+
+        </div>
+
+        @if($tikets->count() > 0)
+
+        <div class="ticket-cards">
+
+                @foreach($tikets as $tiket)
+
+                    <div class="ticket-card">
+
+                        <div class="ticket-image">
+                            @if($tiket->gambar_tiket)
+                                <img src="{{ asset($tiket->gambar_tiket) }}" alt="ticket">
+                            @else
+                                <img src="{{ asset('img/default-ticket.jpg') }}" alt="ticket">
+                            @endif
+                        </div>
+
+                        <div class="ticket-content">
+                            <small>{{ $tiket->kategori }}</small>
+
+                            <h3>{{ $tiket->nama_tiket }}</h3>
+
+                            <p>
+                                @if($tiket->harga)
+                                    Rp {{ number_format($tiket->harga, 0, ',', '.') }}
+                                @else
+                                    Hubungi admin
+                                @endif
+                            </p>
+
+                            @auth
+                                <a href="{{ route('user.tiket.index') }}" class="ticket-btn">
+                                    Dapatkan Tiket
+                                </a>
+                            @else
+                                <a href="javascript:void(0)" onclick="belumLogin()" class="ticket-btn">
+                                    Dapatkan Tiket
+                                </a>
+                            @endauth
+                        </div>
                     </div>
+
+                @endforeach
+            </div>
+
+        @else
+
+        {{-- EMPTY --}}
+        <div class="empty-ticket">
+
+            <div class="empty-icon">
+
+                <i class="fas fa-ticket-alt"></i>
+
+            </div>
+
+            <h4>
+                Tiket Belum Tersedia
+            </h4>
+
+            <p class="empty-text">
+                Saat ini belum ada tiket wisata yang tersedia.
+                Silakan cek kembali beberapa saat lagi.
+            </p>
+
+        </div>
+
+        @endif
+
+    </div>
+
+</section>
+
+
+    <!-- ABOUT -->
+    <section id="aboutus" class="about-section">
+
+        <div class="section-content about-container">
+
+            <div class="about-image-wrapper">
+                <img src="{{ asset('img/logo/logothr.jpg') }}" alt="about" class="about-image">
+            </div>
+
+            <div class="about-details">
+                <h2 class="section-title">About Us</h2>
+
+                <p class="text">
+                    THR Kramat merupakan destinasi wisata keluarga populer di Kabupaten Batang dengan konsep rekreasi modern, nyaman, dan ramah keluarga.
+                </p>
+
+                <div class="social-link-list">
+                    <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fa-brands fa-x-twitter"></i></a>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <!-- ===== SIDEBAR LOGIN/REGISTER ===== -->
+
+    <!-- SIDEBAR -->
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
     <div id="sidebarForm" class="sidebar-form">
-        <div class="p-4 text-center">
-            <h4 class="mb-4">Selamat Datang di Website Tiket Wisata Online</h4>
-            <div class="d-grid gap-3 col-12">
-                <a href="{{ route('admin.login') }}" class="btn btn-dark btn-lg">Login Admin</a>
-                <a href="{{ route('pengelola.login') }}" class="btn btn-primary btn-lg">Login Pengelola</a>
-                <a href="{{ route('petugas.login') }}" class="btn btn-primary btn-lg">Login Petugas</a>
-                <a href="{{ route('user.login') }}" class="btn btn-primary btn-lg">Login User</a>
-            </div>
-            <button type="button" class="btn btn-secondary mt-4" onclick="closeSidebar()">Tutup</button>
+        <div class="sidebar-content">
+
+            <h4>Selamat Datang</h4>
+
+            <a href="{{ route('admin.login') }}" class="sidebar-btn dark-btn">
+                Login Admin
+            </a>
+
+            <a href="{{ route('pengelola.login') }}" class="sidebar-btn">
+                Login Pengelola
+            </a>
+
+            <a href="{{ route('petugas.login') }}" class="sidebar-btn">
+                Login Petugas
+            </a>
+
+            <a href="{{ route('user.login') }}" class="sidebar-btn">
+                Login User
+            </a>
+
+            <button onclick="closeSidebar()" class="close-sidebar-btn">
+                Tutup
+            </button>
         </div>
     </div>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="site-footer text-center">
-        <p>&copy; 2025 THR Kramat Batang | Developed by Nabhan Fahmi</p>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <p>
+            © 2025 THR Kramat Batang | Developed by Nabhan Fahmi
+        </p>
     </footer>
 
-    <!-- ===== SCRIPTS ===== -->
+
+    <!-- SCRIPT -->
     <script src="{{ asset('js/script.js') }}"></script>
 
     <script>
@@ -226,6 +496,7 @@
             setInterval(showNextSlide, 5000);
 
             const header = document.getElementById("main-header");
+
             function updateHeaderTransparency() {
                 if (window.scrollY === 0) {
                     header.classList.add("transparent");
@@ -235,6 +506,7 @@
                     header.classList.remove("transparent");
                 }
             }
+
             updateHeaderTransparency();
             window.addEventListener("scroll", updateHeaderTransparency);
         });
@@ -250,65 +522,7 @@
         closeBtn.addEventListener('click', () => {
             body.classList.remove('show-mobile-menu');
         });
-    </script>
 
-    <!-- Lightbox Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const galleryImages = document.querySelectorAll('.galeri-item img');
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const closeBtn = document.querySelector('.lightbox-close');
-            let currentIndex = 0;
-            const imageList = Array.from(galleryImages);
-
-            function showImage(index) {
-                if (index >= 0 && index < imageList.length) {
-                    currentIndex = index;
-                    lightboxImg.src = imageList[currentIndex].src;
-                    lightbox.style.display = 'flex';
-                }
-            }
-
-            imageList.forEach((img, index) => {
-                img.addEventListener('click', () => showImage(index));
-            });
-
-            function nextImage() {
-                currentIndex = (currentIndex + 1) % imageList.length;
-                showImage(currentIndex);
-            }
-
-            function prevImage() {
-                currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
-                showImage(currentIndex);
-            }
-
-            function closeLightbox() {
-                lightbox.style.display = 'none';
-                lightboxImg.src = '';
-            }
-
-            lightbox.addEventListener('click', function (e) {
-                if (e.target === lightbox || e.target === closeBtn) closeLightbox();
-            });
-
-            document.addEventListener('keydown', function (e) {
-                if (lightbox.style.display === 'flex') {
-                    if (e.key === 'ArrowRight') nextImage();
-                    if (e.key === 'ArrowLeft') prevImage();
-                    if (e.key === 'Escape') closeLightbox();
-                }
-            });
-
-            window.nextImage = nextImage;
-            window.prevImage = prevImage;
-            window.closeLightbox = closeLightbox;
-        });
-    </script>
-
-    <!-- Sidebar -->
-    <script>
         function openSidebar() {
             document.getElementById('sidebarForm').classList.add('active');
             document.getElementById('sidebarOverlay').classList.add('active');
@@ -318,23 +532,14 @@
             document.getElementById('sidebarForm').classList.remove('active');
             document.getElementById('sidebarOverlay').classList.remove('active');
         }
-    </script>
 
-    <!-- SweetAlert Login Alert -->
-    <script>
         function alertLogin() {
             Swal.fire({
                 icon: 'warning',
                 title: 'Login Diperlukan!',
                 text: 'Silakan login terlebih dahulu untuk membeli tiket.',
                 confirmButtonText: 'Login Sekarang',
-                confirmButtonColor: '#6f42c1',
-                showCloseButton: true,
-                background: '#f8f9fa',
-                customClass: {
-                    title: 'fs-4',
-                    popup: 'rounded-4 shadow'
-                }
+                confirmButtonColor: '#7f5cff'
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = "{{ route('user.login') }}";
@@ -343,31 +548,222 @@
         }
     </script>
 
-    <!-- Scroll Smooth ke Tiket -->
     <script>
-        function scrollToTiketSection() {
-            const tiketSection = document.getElementById("daftar-tiket");
-            if (tiketSection) {
-                tiketSection.scrollIntoView({ behavior: "smooth" });
-
-                const notif = document.createElement("div");
-                notif.className = "custom-alert";
-                notif.textContent = "Ke Menu Beli Tiket Untuk Mendapatkan Tiket! Silakan pilih tiket yang ingin dibeli.";
-                document.body.appendChild(notif);
-
-                setTimeout(() => { notif.remove(); }, 3000);
-            }
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const beliButtons = document.querySelectorAll(".button:not(.contact-us)");
-            beliButtons.forEach(button => {
-                button.addEventListener("click", function (e) {
-                    e.preventDefault();
-                    scrollToTiketSection();
-                });
+        function belumLogin() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                html: `
+                    <b>Anda belum login 😅</b><br>
+                    Ayo login dulu wkwk 🚀
+                `,
+                confirmButtonText: 'Login Sekarang',
+                confirmButtonColor: '#7f5cff',
+                background: '#0b1227',
+                color: '#ffffff',
+                backdrop: `
+                    rgba(0,0,0,0.7)
+                `
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('user.login') }}";
+                }
             });
-        });
+        }
     </script>
+
+    <script>
+
+const popup = document.getElementById('galleryPopup');
+
+const popupImage = document.getElementById('popupImage');
+
+const galleryItems = document.querySelectorAll('.open-gallery');
+
+const closeGallery = document.getElementById('closeGallery');
+
+const prevGallery = document.getElementById('prevGallery');
+
+const nextGallery = document.getElementById('nextGallery');
+
+let currentIndex = 0;
+
+/* =========================
+   GET IMAGES
+========================= */
+
+const images = [
+
+    @foreach($galeri as $item)
+
+        "{{ asset('storage/' . $item->gambar) }}",
+
+    @endforeach
+
+];
+
+/* =========================
+   OPEN
+========================= */
+
+galleryItems.forEach(item => {
+
+    item.addEventListener('click', function(){
+
+        currentIndex = parseInt(this.dataset.index);
+
+        showImage();
+
+        popup.classList.add('active');
+
+        document.body.style.overflow = 'hidden';
+
+    });
+
+});
+
+/* =========================
+   SHOW IMAGE
+========================= */
+
+function showImage(){
+
+    popupImage.src = images[currentIndex];
+}
+
+/* =========================
+   NEXT
+========================= */
+
+nextGallery.addEventListener('click', function(){
+
+    currentIndex++;
+
+    if(currentIndex >= images.length){
+        currentIndex = 0;
+    }
+
+    showImage();
+
+});
+
+/* =========================
+   PREV
+========================= */
+
+prevGallery.addEventListener('click', function(){
+
+    currentIndex--;
+
+    if(currentIndex < 0){
+        currentIndex = images.length - 1;
+    }
+
+    showImage();
+
+});
+
+/* =========================
+   CLOSE
+========================= */
+
+closeGallery.addEventListener('click', closePopup);
+
+popup.addEventListener('click', function(e){
+
+    if(e.target === popup){
+        closePopup();
+    }
+
+});
+
+function closePopup(){
+
+    popup.classList.remove('active');
+
+    document.body.style.overflow = 'auto';
+}
+
+/* =========================
+   KEYBOARD
+========================= */
+
+document.addEventListener('keydown', function(e){
+
+    if(!popup.classList.contains('active')) return;
+
+    if(e.key === 'ArrowRight'){
+        nextGallery.click();
+    }
+
+    if(e.key === 'ArrowLeft'){
+        prevGallery.click();
+    }
+
+    if(e.key === 'Escape'){
+        closePopup();
+    }
+
+});
+
+/* =========================
+   SWIPE MOBILE
+========================= */
+
+let startX = 0;
+
+popup.addEventListener('touchstart', e => {
+
+    startX = e.touches[0].clientX;
+
+});
+
+popup.addEventListener('touchend', e => {
+
+    let endX = e.changedTouches[0].clientX;
+
+    if(startX - endX > 50){
+
+        nextGallery.click();
+    }
+
+    if(endX - startX > 50){
+
+        prevGallery.click();
+    }
+
+});
+
+</script>
+
+<script>
+
+const userMenuToggle =
+document.getElementById('userMenuToggle');
+
+const userDropdownMenu =
+document.getElementById('userDropdownMenu');
+
+userMenuToggle.addEventListener('click', function () {
+
+    userDropdownMenu.classList.toggle('active');
+
+});
+
+document.addEventListener('click', function (e) {
+
+    if (
+        !userMenuToggle.contains(e.target)
+        &&
+        !userDropdownMenu.contains(e.target)
+    ) {
+
+        userDropdownMenu.classList.remove('active');
+    }
+
+});
+
+</script>
+
 </body>
 </html>

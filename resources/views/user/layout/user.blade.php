@@ -2,264 +2,381 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Dashboard</title>
+    <title>User Dashboard | THR Kramat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Custom fonts & styles -->
+    <!-- FONT AWESOME -->
     <link href="{{ asset('vendor/sb-admin-2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+
+    <!-- SB ADMIN -->
     <link href="{{ asset('vendor/sb-admin-2/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* Sidebar style */
-        .sidebar {
-            background: linear-gradient(180deg, #6a11cb 0%, #2575fc 100%);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease-in-out;
+
+        *{
+            font-family:'Poppins',sans-serif;
         }
 
-        /* Brand */
-        .sidebar .sidebar-brand {
-            padding: 1.5rem 1rem;
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        body{
+
+            background:
+            radial-gradient(circle at top left, rgba(127,92,255,0.20), transparent 30%),
+            radial-gradient(circle at bottom right, rgba(0,229,255,0.12), transparent 30%),
+            #050816 !important;
+
+            overflow-x:hidden;
+
         }
 
-        /* Icon and text spacing */
-        .sidebar .nav-link i {
-            margin-right: 10px;
+        /* =========================================
+            SIDEBAR
+        ========================================= */
+
+        .sidebar{
+
+            background:
+            linear-gradient(
+                180deg,
+                rgba(15,23,42,0.95),
+                rgba(10,14,35,0.98)
+            ) !important;
+
+            backdrop-filter:blur(18px);
+
+            border-right:1px solid rgba(255,255,255,0.08);
+
+            box-shadow:
+            0 0 25px rgba(127,92,255,0.15);
+
         }
 
-        /* Nav item default */
-        .sidebar .nav-item .nav-link {
-            color: #ffffffcc;
-            transition: all 0.3s;
-            padding: 12px 20px;
-            border-left: 4px solid transparent;
+        .sidebar .sidebar-brand{
+
+            height:90px;
+
+            color:white !important;
+
+            font-size:1.2rem;
+
+            font-weight:700;
+
+            letter-spacing:1px;
+
         }
 
-        /* Hover effect */
-        .sidebar .nav-item .nav-link:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #00ffe7;
-            transform: translateX(4px);
+        .sidebar .sidebar-brand i{
+
+            color:#00e5ff;
+
+            filter:drop-shadow(0 0 10px #00e5ff);
+
         }
 
-        /* Active menu */
-        .sidebar .nav-item.active .nav-link {
-            background-color: rgba(0, 0, 0, 0.15);
-            border-left: 4px solid #00ffc6;
-            color: #ffffff;
-            font-weight: 600;
+        /* MENU */
+
+        .sidebar .nav-item{
+
+            margin:8px 12px;
+
         }
 
-        /* Divider */
-        .sidebar hr.sidebar-divider {
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        .sidebar .nav-item .nav-link{
+
+            color:rgba(255,255,255,0.78);
+
+            border-radius:14px;
+
+            padding:14px 18px;
+
+            transition:0.3s ease;
+
+            display:flex;
+            align-items:center;
+
         }
 
-        /* Logout style */
-        .sidebar .nav-item .nav-link i.fa-sign-out-alt {
-            color: #ff6b6b;
+        .sidebar .nav-item .nav-link i{
+
+            margin-right:12px;
+
+            font-size:15px;
+
+            min-width:18px;
+
         }
 
-        .sidebar .nav-item .nav-link:hover i.fa-sign-out-alt {
-            color: #ff9a9a;
+        .sidebar .nav-item .nav-link:hover{
+
+            background:
+            linear-gradient(
+                135deg,
+                rgba(127,92,255,0.22),
+                rgba(0,229,255,0.14)
+            );
+
+            color:white;
+
+            transform:translateX(5px);
+
+            box-shadow:
+            0 0 18px rgba(127,92,255,0.18);
+
         }
 
-        /* user dashboard style */
-            /* === Container Styling === */
-        /* === Heading === */
-        .dashboard-container h2 {
-            color: #5b2c6f;
-            font-weight: 700;
-            margin-bottom: 10px;
+        /* ACTIVE */
+
+        .sidebar .nav-item.active .nav-link{
+
+            background:
+            linear-gradient(
+                135deg,
+                #7f5cff,
+                #00e5ff
+            );
+
+            color:white;
+
+            font-weight:600;
+
+            box-shadow:
+            0 0 20px rgba(0,229,255,0.35);
+
         }
 
-        .dashboard-container p {
-            font-size: 16px;
-            color: #555;
+        .sidebar hr.sidebar-divider{
+            border-top:1px solid rgba(255,255,255,0.08);
         }
 
-        /* === Section Title === */
-        .dashboard-container h4 {
-            margin-top: 40px;
-            font-weight: 600;
-            color: #2c3e50;
+        /* =========================================
+            TOPBAR
+        ========================================= */
+
+        .topbar{
+
+            background:rgba(255,255,255,0.04) !important;
+
+            backdrop-filter:blur(18px);
+
+            border-bottom:1px solid rgba(255,255,255,0.08);
+
+            box-shadow:none !important;
+
         }
 
-        /* === Table Styling === */
-        .dashboard-container .table {
-            margin-top: 20px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        .topbar .nav-link,
+        .topbar .dropdown-toggle{
+
+            color:white !important;
+
         }
 
-        .dashboard-container .table thead th {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: white;
-            text-align: center;
-            font-weight: 600;
-            border: none;
+        .topbar .img-profile{
+
+            border:2px solid rgba(255,255,255,0.2);
+
+            box-shadow:
+            0 0 15px rgba(0,229,255,0.2);
+
         }
 
-        .dashboard-container .table tbody td {
-            text-align: center;
-            vertical-align: middle;
-            color: #333;
-            font-weight: 500;
-            padding: 15px 10px;
+        /* =========================================
+            CONTENT
+        ========================================= */
+
+        #content-wrapper{
+            background:transparent !important;
         }
 
-        /* === Badges === */
-        .badge {
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 50px;
-            font-weight: 600;
-            text-transform: capitalize;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        #content{
+            background:transparent !important;
         }
 
-        .badge.bg-success {
-            background: linear-gradient(to right, #00b09b, #96c93d);
-            color: #fff;
+        .container-fluid{
+            padding-top:25px;
+            padding-bottom:25px;
         }
 
-        .badge.bg-warning {
-            background: linear-gradient(to right, #f7971e, #ffd200);
-            color: #333;
+        /* =========================================
+            CARD GLOBAL
+        ========================================= */
+
+        .card{
+
+            background:rgba(255,255,255,0.05);
+
+            border:1px solid rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(16px);
+
+            border-radius:24px;
+
+            box-shadow:
+            0 0 25px rgba(127,92,255,0.10);
+
+            overflow:hidden;
+
         }
 
-        .badge.bg-danger {
-            background: linear-gradient(to right, #e53935, #e35d5b);
-            color: #fff;
+        .card-header{
+
+            background:rgba(255,255,255,0.04);
+
+            border-bottom:1px solid rgba(255,255,255,0.06);
+
+            color:white;
+
         }
 
-        .badge.bg-secondary {
-            background-color: #95a5a6;
-            color: #fff;
+        .card-body{
+            color:#d0d9ff;
         }
 
-        /* === Animation === */
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(20px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
-        /* Wrapper agar div pas tengah layar */
-        .dashboard-wrapper {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(to right, #e0eafc, #cfdef3);
-            padding: 30px 15px;
+        /* =========================================
+            BUTTON
+        ========================================= */
+
+        .btn-primary{
+
+            background:
+            linear-gradient(
+                135deg,
+                #7f5cff,
+                #00e5ff
+            ) !important;
+
+            border:none;
+
+            border-radius:14px;
+
+            box-shadow:
+            0 0 18px rgba(127,92,255,0.30);
+
         }
 
-        /* Dashboard box */
-        .dashboard-container {
-            background: #fff;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-            max-width: 900px;
-            width: 100%;
-            animation: fadeIn 0.6s ease-in-out;
+        .btn-primary:hover{
+
+            transform:translateY(-2px);
+
+            box-shadow:
+            0 0 22px rgba(0,229,255,0.35);
+
         }
 
-        h2 {
-            color: #512da8;
-            font-weight: 700;
+        /* =========================================
+            TABLE
+        ========================================= */
+
+        .table{
+            color:white;
         }
 
-        /* Tambahkan animasi */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+        .table thead th{
+
+            background:rgba(255,255,255,0.05);
+
+            border-color:rgba(255,255,255,0.06);
+
+            color:#00e5ff;
+
+        }
+
+        .table td{
+
+            border-color:rgba(255,255,255,0.05);
+
+        }
+
+        /* =========================================
+            SCROLLBAR
+        ========================================= */
+
+        ::-webkit-scrollbar{
+            width:8px;
+            height:8px;
+        }
+
+        ::-webkit-scrollbar-thumb{
+            background:#7f5cff;
+            border-radius:20px;
+        }
+
+        /* =========================================
+            MOBILE
+        ========================================= */
+
+        @media(max-width:768px){
+
+            .sidebar{
+
+                backdrop-filter:none;
+
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            .sidebar .nav-item .nav-link{
+
+                padding:12px 16px;
+
+                font-size:14px;
+
             }
-        }
 
-        /* Responsive behavior (opsional) */
-        @media (max-width: 768px) {
-            .dashboard-container {
-                padding: 25px 20px;
+            .topbar{
+
+                padding-left:10px;
+                padding-right:10px;
+
             }
-        }
-        /* Custom Topbar */
-        .custom-topbar {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: white;
-            padding: 10px 25px;
-            border-bottom: 3px solid #ffffff33;
-        }
 
-        .custom-topbar .btn {
-            border-radius: 30px;
-            padding: 6px 16px;
-            font-weight: 500;
-            font-size: 14px;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .custom-topbar .btn i {
-            margin-right: 6px;
-        }
-
-        .custom-topbar .btn-outline-light {
-            border-color: rgba(255, 255, 255, 0.6);
-            color: white;
-        }
-
-        .custom-topbar .btn-outline-light:hover {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: #fff;
-            border-color: #fff;
-        }
-
-        /* Responsive spacing */
-        @media (max-width: 768px) {
-            .custom-topbar .btn {
-                font-size: 13px;
-                padding: 5px 12px;
+            .container-fluid{
+                padding-left:15px;
+                padding-right:15px;
             }
+
         }
+
     </style>
+
 </head>
+
 <body id="page-top">
-    <div id="wrapper">
 
-        <!-- Sidebar -->
-        @include('user.partials.sidebar')
+<div id="wrapper">
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
+    {{-- SIDEBAR --}}
+    @include('user.partials.sidebar')
 
-                <!-- Topbar -->
-                @include('user.partials.topbar')
+    {{-- CONTENT WRAPPER --}}
+    <div id="content-wrapper" class="d-flex flex-column">
 
-                <!-- Main Content -->
-                <div class="container-fluid pt-4">
-                    @yield('content')
-                </div>
+        <div id="content">
+
+            {{-- TOPBAR --}}
+            @include('user.partials.topbar')
+
+            {{-- MAIN CONTENT --}}
+            <div class="container-fluid">
+
+                @yield('content')
 
             </div>
+
         </div>
+
     </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('vendor/sb-admin-2/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('vendor/sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('vendor/sb-admin-2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('vendor/sb-admin-2/js/sb-admin-2.min.js') }}"></script>
+</div>
+
+<!-- SCRIPTS -->
+<script src="{{ asset('vendor/sb-admin-2/vendor/jquery/jquery.min.js') }}"></script>
+
+<script src="{{ asset('vendor/sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<script src="{{ asset('vendor/sb-admin-2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+<script src="{{ asset('vendor/sb-admin-2/js/sb-admin-2.min.js') }}"></script>
+
 </body>
 </html>

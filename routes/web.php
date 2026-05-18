@@ -21,6 +21,7 @@ use App\Http\Controllers\User\TiketPemesananController;
 use App\Http\Controllers\User\UserTiketController;
 use App\Http\Controllers\User\UserBeritaController;
 use App\Http\Controllers\User\MidtransCallbackController;
+use App\Http\Controllers\User\ProfileController;
 
 // PENGELOLA
 use App\Http\Controllers\Pengelola\PemesananController as PengelolaPemesananController;
@@ -161,6 +162,12 @@ Route::prefix('user')->name('user.')->group(function () {
 
     // ================= USER PANEL =================
     Route::middleware('auth')->group(function () {
+
+        Route::get('/profil', [ProfileController::class, 'index'])->name('profil.index');
+
+        Route::put('/profil/update', [ProfileController::class, 'update'])->name('profil.update');
+
+        Route::put('/profil/password', [ProfileController::class, 'updatePassword'])->name('profil.password');
 
         Route::get('/dashboard', [UserDashboardController::class, 'dashboard'])
             ->name('dashboard');
