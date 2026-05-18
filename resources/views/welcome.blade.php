@@ -46,102 +46,102 @@
                     </li>
 
                     {{-- USER MENU --}}
-<li class="nav-item dropdown-user">
+                <li class="nav-item dropdown-user">
 
-    <button
-        class="user-menu-btn"
-        id="userMenuToggle">
+                    <button
+                        class="user-menu-btn"
+                        id="userMenuToggle">
 
-        @if(Auth::user()->foto)
+                        @if(Auth::user()->foto)
 
-            <img
-                src="{{ asset('uploads/profil/' . Auth::user()->foto) }}"
-                class="user-menu-img">
+                            <img
+                                src="{{ asset('uploads/profil/' . Auth::user()->foto) }}"
+                                class="user-menu-img">
 
-        @else
+                        @else
 
-            <img
-                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6f42c1&color=fff"
-                class="user-menu-img">
+                            <img
+                                src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6f42c1&color=fff"
+                                class="user-menu-img">
 
-        @endif
+                        @endif
 
-        <span>
-            {{ Auth::user()->name }}
-        </span>
+                        <span>
+                            {{ Auth::user()->name }}
+                        </span>
 
-        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down"></i>
 
-    </button>
+                    </button>
 
-    {{-- POPUP MENU --}}
-    <div class="user-dropdown-menu" id="userDropdownMenu">
+                    {{-- POPUP MENU --}}
+                    <div class="user-dropdown-menu" id="userDropdownMenu">
 
-        {{-- PROFILE --}}
-        <div class="dropdown-profile">
+                        {{-- PROFILE --}}
+                        <div class="dropdown-profile">
 
-            @if(Auth::user()->foto)
+                            @if(Auth::user()->foto)
 
-                <img
-                    src="{{ asset('uploads/profil/' . Auth::user()->foto) }}"
-                    class="dropdown-profile-img">
+                                <img
+                                    src="{{ asset('uploads/profil/' . Auth::user()->foto) }}"
+                                    class="dropdown-profile-img">
 
-            @else
+                            @else
 
-                <img
-                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6f42c1&color=fff"
-                    class="dropdown-profile-img">
+                                <img
+                                    src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6f42c1&color=fff"
+                                    class="dropdown-profile-img">
 
-            @endif
+                            @endif
 
-            <div>
+                            <div>
 
-                <div class="dropdown-profile-name">
-                    {{ Auth::user()->name }}
-                </div>
+                                <div class="dropdown-profile-name">
+                                    {{ Auth::user()->name }}
+                                </div>
 
-                <div class="dropdown-profile-email">
-                    {{ Auth::user()->email }}
-                </div>
+                                <div class="dropdown-profile-email">
+                                    {{ Auth::user()->email }}
+                                </div>
 
-            </div>
+                            </div>
 
-        </div>
+                        </div>
 
-        {{-- MENU --}}
-        <a href="{{ route('user.dashboard') }}" class="dropdown-link">
-            <i class="fas fa-home"></i>
-            Dashboard
-        </a>
+                        {{-- MENU --}}
+                        <a href="{{ route('user.dashboard') }}" class="dropdown-link">
+                            <i class="fas fa-home"></i>
+                            Dashboard
+                        </a>
 
-        <a href="{{ route('user.profil.index') }}" class="dropdown-link">
-            <i class="fas fa-user"></i>
-            Profil Saya
-        </a>
+                        <a href="{{ route('user.profil.index') }}" class="dropdown-link">
+                            <i class="fas fa-user"></i>
+                            Profil Saya
+                        </a>
 
-        <a href="{{ route('user.pemesanan.index') }}" class="dropdown-link">
-            <i class="fas fa-ticket-alt"></i>
-            Riwayat Tiket
-        </a>
+                        <a href="{{ route('user.pemesanan.index') }}" class="dropdown-link">
+                            <i class="fas fa-ticket-alt"></i>
+                            Riwayat Tiket
+                        </a>
 
-        <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-        {{-- LOGOUT --}}
-        <form method="POST" action="{{ route('user.logout') }}">
-            @csrf
+                        {{-- LOGOUT --}}
+                        <form method="POST" action="{{ route('user.logout') }}">
+                            @csrf
 
-            <button type="submit" class="dropdown-logout">
+                            <button type="submit" class="dropdown-logout">
 
-                <i class="fas fa-sign-out-alt"></i>
+                                <i class="fas fa-sign-out-alt"></i>
 
-                Logout
+                                Logout
 
-            </button>
-        </form>
+                            </button>
+                        </form>
 
-    </div>
+                    </div>
 
-</li>
+                </li>
                 @else
                     <li class="nav-item">
                         <a href="javascript:void(0);" onclick="alertLogin()" class="nav-link special-btn">
@@ -536,10 +536,18 @@
         function alertLogin() {
             Swal.fire({
                 icon: 'warning',
-                title: 'Login Diperlukan!',
-                text: 'Silakan login terlebih dahulu untuk membeli tiket.',
+                title: 'Oops...',
+                html: `
+                    <b>Anda belum login 😅</b><br>
+                    Ayo login dulu wkwk 🚀
+                `,
                 confirmButtonText: 'Login Sekarang',
-                confirmButtonColor: '#7f5cff'
+                confirmButtonColor: '#7f5cff',
+                background: '#0b1227',
+                color: '#ffffff',
+                backdrop: `
+                    rgba(0,0,0,0.7)
+                `
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = "{{ route('user.login') }}";
