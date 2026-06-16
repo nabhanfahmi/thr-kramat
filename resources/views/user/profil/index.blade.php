@@ -440,7 +440,7 @@ body{
                             type="text"
                             name="phone"
                             class="form-control"
-                            value="{{ Auth::user()->phone }}">
+                            value="{{ Auth::user()->no_hp }}">
 
                     </div>
 
