@@ -74,7 +74,7 @@
 
                     </button>
 
-                    {{-- POPUP MENU --}}
+                    {{-- POPUP MENU 2--}}
                     <div class="user-dropdown-menu" id="userDropdownMenu">
 
                         {{-- PROFILE --}}
