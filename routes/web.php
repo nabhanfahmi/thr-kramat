@@ -51,6 +51,8 @@ Route::get('/berita/{id}', [UserBeritaController::class, 'show'])
 
 // ================= TEST MIDTRANS =================
 
+if (app()->environment('local')) {
+
 Route::get('/test-midtrans', function () {
 
     \Midtrans\Config::$serverKey = config('services.midtrans.serverKey');
@@ -73,6 +75,7 @@ Route::get('/test-midtrans', function () {
 
     return \Midtrans\Snap::getSnapToken($params);
 });
+}
 
 
 // ================= ADMIN =================
