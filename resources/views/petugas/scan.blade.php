@@ -3,42 +3,90 @@
 @section('content')
 
 <style>
-.scanner-container {
-    max-width: 420px;
-    margin: 30px auto;
-    background: white;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    text-align: center;
+
+.scan-wrapper{
+    max-width:650px;
+    margin:auto;
 }
 
-#reader {
-    width: 100%;
-    border-radius: 12px;
-    overflow: hidden;
+.scan-card{
+    padding:35px;
 }
 
-button {
-    padding: 10px 20px;
-    border: none;
-    background: #2c97e8;
-    color: white;
-    border-radius: 10px;
-    margin-bottom: 15px;
+.scan-title{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.scan-title h2{
+    font-weight:700;
+}
+
+.scan-title p{
+    color:#b9c0d3;
+}
+
+.start-btn{
+    width:100%;
+    border:none;
+    background:#08d665;
+    color:white;
+    padding:15px;
+    border-radius:14px;
+    font-weight:600;
+    margin-bottom:20px;
+    box-shadow:0 0 25px rgba(8,214,101,.35);
+}
+
+.start-btn:hover{
+    background:#06c15b;
+}
+
+#reader{
+    overflow:hidden;
+    border-radius:18px;
+    border:2px solid rgba(255,255,255,.08);
+}
+
+#scan-result{
+    margin-top:20px;
+}
+
+.result-success{
+    background:#0fd46c20;
+    border:1px solid #0fd46c;
+    color:#0fd46c;
+    padding:15px;
+    border-radius:12px;
+}
+
+.result-error{
+    background:#ff4d4d20;
+    border:1px solid #ff4d4d;
+    color:#ff7070;
+    padding:15px;
+    border-radius:12px;
 }
 </style>
 
-<div class="scanner-container">
+<div class="scan-wrapper">
 
-    <h3>Scan Tiket QR</h3>
+    <div class="glass-card scan-card">
 
-    <button onclick="startScanner()">
-        📷 Mulai Scan Kamera
-    </button>
+        <div class="scan-title">
+            <h2>📷 Scan Tiket QR</h2>
+            <p>Arahkan kamera ke QR Code tiket</p>
+        </div>
 
-    <div id="reader"></div>
-    <div id="scan-result"></div>
+        <button class="start-btn" onclick="startScanner()">
+            Mulai Scan Kamera
+        </button>
+
+        <div id="reader"></div>
+
+        <div id="scan-result"></div>
+
+    </div>
 
 </div>
 
@@ -63,53 +111,49 @@ function startScanner() {
             return;
         }
 
-        let cameraId = devices[0].id;
-
         scanner.start(
-            cameraId,
+            devices[0].id,
             {
                 fps: 10,
                 qrbox: 250
             },
             onScanSuccess
-        ).catch(err => {
-            console.log(err);
-            alert("Tidak bisa membuka kamera. Cek izin browser.");
-        });
+        );
 
     })
-    .catch(err => {
-        console.log(err);
+    .catch(() => {
         alert("Izin kamera ditolak");
     });
 }
 
 function onScanSuccess(decodedText) {
 
-    if (sudahScan) return;
-    sudahScan = true;
+    if(sudahScan) return;
 
+    sudahScan = true;
     scanner.stop();
 
     let kodeQr = decodedText.split('/').pop();
 
-    fetch("{{ route('petugas.scan.submit') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-            "Accept": "application/json"
+    fetch("{{ route('petugas.scan.submit') }}",{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'X-CSRF-TOKEN':'{{ csrf_token() }}'
         },
-        body: JSON.stringify({ kode_qr: kodeQr })
+        body:JSON.stringify({
+            kode_qr:kodeQr
+        })
     })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("scan-result").innerHTML = data.message;
+    .then(res=>res.json())
+    .then(data=>{
+
+        document.getElementById('scan-result').innerHTML=
+        `<div class="result-success">${data.message}</div>`;
+
         sudahScan = false;
     });
-
 }
-
 </script>
 
 @endsection
