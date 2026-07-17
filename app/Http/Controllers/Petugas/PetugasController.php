@@ -13,6 +13,11 @@ class PetugasController extends Controller
         return view('petugas.index');
     }
 
+    public function scanner()
+    {
+        return view('petugas.scan'); // halaman scanner QR
+    }
+
     public function scan(Request $request)
     {
         $kode = $request->kode_qr;

@@ -272,8 +272,10 @@ Route::prefix('petugas')->name('petugas.')->group(function () {
 
     // Petugas Area
     Route::middleware('auth:petugas')->group(function () {
+        Route::get('/dashboard', [PetugasController::class, 'index'])
+            ->name('dashboard');
 
-        Route::get('/scan', [PetugasController::class, 'index'])
+        Route::get('/scan', [PetugasController::class, 'scanner'])
             ->name('scan');
 
         Route::post('/scan', [PetugasController::class, 'scan'])

@@ -21,7 +21,7 @@ class LoginController extends Controller
 
         if (Auth::guard('petugas')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended(route('petugas.scan'));
+            return redirect()->intended(route('petugas.dashboard'));
         }
 
         return back()->withErrors(['email' => 'Email atau password salah']);
